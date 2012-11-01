@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT
  *
- * @(#)$Id$
+ * @(#)$Id: ircaux.h 80 2009-11-24 10:21:30Z keaston $
  */
 
 #ifndef _IRCAUX_H_
@@ -255,12 +255,6 @@ char	*ulongcomma		(unsigned long);
 #ifndef HAVE_TPARM
 	char 	*tparm (const char *, ...);
 #endif
-
-	int	my_base64_encode (const void *, int, char **);
-
-	int	my_base64_encode (const void *, int, char **);
-
-	int	my_base64_encode (const void *, int, char **);
 
 #ifndef HAVE_STRTOUL
 	unsigned long 	strtoul (const char *, char **, int);

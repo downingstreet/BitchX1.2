@@ -5,7 +5,7 @@
  *
  * See the copyright file, or do a help ircii copyright 
  *
- * @(#)$Id$
+ * @(#)$Id: queue.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __queue_h

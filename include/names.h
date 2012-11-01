@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: names.h 134 2011-08-30 14:50:42Z keaston $
  */
 
 #ifndef __names_h_

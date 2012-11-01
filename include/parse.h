@@ -4,7 +4,7 @@
  * written by matthew green
  * copyright (c) 1993
  *
- * @(#)$Id$
+ * @(#)$Id: parse.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __parse_h_

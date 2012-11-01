@@ -12,7 +12,7 @@
  */
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: commands.c 206 2012-06-13 12:34:32Z keaston $";
 CVS_REVISION(commands_c)
 
 /* These headers are for the local-address-finding routines. */

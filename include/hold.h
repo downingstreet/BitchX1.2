@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: hold.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __hold_h_

@@ -12,7 +12,7 @@
 
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: numbers.c 144 2011-10-13 12:45:27Z keaston $";
 CVS_REVISION(numbers_c)
 #include "struct.h"
 
@@ -1406,17 +1406,6 @@ void numbered_command(char *from, int comm, char **ArgList)
 				break;
 			}
 		}
-	}
-	case 903:		/* SASL authentication successful */
-	case 904:		/* SASL authentication failed */
-	case 905:		/* SASL message too long */
-	case 906:		/* SASL authentication aborted */
-	case 907:		/* You have already completed SASL authentication */
-	{
-		my_send_to_server(from_server, "CAP END");
-		if (do_hook(current_numeric, "%s %s", from, *ArgList))
-			display_msg(from, ArgList);
-		break;
 	}
 	case 305:
 	{

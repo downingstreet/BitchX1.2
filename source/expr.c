@@ -6,7 +6,7 @@
  * Copyright 1997 EPIC Software Labs
  * See the COPYRIGHT file for more info
  *
- * $Id$
+ * $Id: expr.c 26 2008-04-30 13:57:56Z keaston $
  */
 
 #include "irc.h"

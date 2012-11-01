@@ -7,7 +7,7 @@
  *
  * see the copyright file, or do a help ircii copyright 
  *
- * @(#)$Id$
+ * @(#)$Id: numbers.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __numbers_h_

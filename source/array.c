@@ -166,7 +166,7 @@ Karll on IRC
  */
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: array.c 81 2009-11-24 12:06:54Z keaston $";
 CVS_REVISION(array_c)
 
 #include "array.h"

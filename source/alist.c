@@ -17,7 +17,7 @@
 #define _cs_alist_hash_
 #define _ci_alist_hash_
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: alist.c 107 2011-02-02 12:11:03Z keaston $";
 CVS_REVISION(alist_c)
 #include "alist.h"
 #include "ircaux.h"

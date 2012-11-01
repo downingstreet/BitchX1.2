@@ -8,7 +8,7 @@
  
  /* 
   * Version 1.0 released with BitchX 75
-  * $Id$
+  * $Id: scr-bx.c 119 2011-04-08 12:29:55Z keaston $
   */
 
 #include "irc.h"

@@ -8,7 +8,7 @@
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  */
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: ircaux.c 206 2012-06-13 12:34:32Z keaston $";
 CVS_REVISION(ircaux_c)
 #include "struct.h"
 

@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: ctcp.h 40 2008-05-07 11:07:31Z keaston $
  */
 
 #ifndef _CTCP_H_

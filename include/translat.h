@@ -3,7 +3,7 @@
  *
  * Tomten, tomten@solace.hsh.se / tomten@lysator.liu.se
  *
- * @(#)$Id$
+ * @(#)$Id: translat.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __translat_h_

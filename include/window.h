@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: window.h 26 2008-04-30 13:57:56Z keaston $
  */
 
 #ifndef __window_h_

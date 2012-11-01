@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT
  *
- * @(#)$Id$
+ * @(#)$Id: hash2.h 52 2008-06-14 06:45:05Z keaston $
  */
 
 #ifndef _HASH2_H_

@@ -1,4 +1,4 @@
- /* $Id$ */
+ /* $Id: cdns.h 3 2008-02-25 09:49:14Z keaston $ */
  
 /*
  * cdns.h: header for cdns.c

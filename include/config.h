@@ -11,7 +11,7 @@
  * use this version of IRCII!  Please read the INSTALL and New2.2 files
  * supplied with the distribution for details!
  *
- * @(#)$Id$
+ * @(#)$Id: config.h 160 2012-03-06 11:14:51Z keaston $
  */
 
 #ifndef __config_h_

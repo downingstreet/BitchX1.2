@@ -10,7 +10,7 @@
 
 #define _cs_alist_hash_
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: alias.c 26 2008-04-30 13:57:56Z keaston $";
 CVS_REVISION(alias_c)
 #include "struct.h"
 #include "alias.h"

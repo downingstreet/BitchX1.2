@@ -6,7 +6,7 @@
  */
  
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: commands2.c 163 2012-04-30 08:05:04Z keaston $";
 CVS_REVISION(commands2_c)
 #include "struct.h"
 #include <sys/stat.h>

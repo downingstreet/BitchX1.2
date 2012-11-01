@@ -15,7 +15,7 @@
 
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: reg.c 80 2009-11-24 10:21:30Z keaston $";
 CVS_REVISION(reg_c)
 #include "ircaux.h"
 #include "output.h"

@@ -3,7 +3,7 @@
  *
  * Generated from vars.h.proto automatically by the Makefile
  *
- * @(#)$Id$
+ * @(#)$Id: vars.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __vars_h_

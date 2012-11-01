@@ -5,7 +5,7 @@
  * Copyright 1997 EPIC Software Labs
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: history.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __history_h__

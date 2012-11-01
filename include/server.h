@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: server.h 87 2010-06-26 08:18:34Z keaston $
  */
 
 #ifndef __server_h_
@@ -165,8 +165,6 @@ typedef	struct
 	int ssl_error;
 	SSL* ssl_fd;
 #endif
-	char *sasl_nick;
-	char *sasl_pass;
 
 /* recv_nick: the nickname of the last person to send you a privmsg */
 	char *recv_nick;
@@ -187,7 +185,7 @@ typedef	unsigned	short	ServerType;
 	int	find_server_group (char *, int);
 	char *	find_server_group_name (int);
 
-	void	BX_add_to_server_list (char *, int, char *, char *, char *, char *, char *, int, int);
+	void	BX_add_to_server_list (char *, int, char *, char *, char *, int, int);
 	int	BX_build_server_list (char *);
 	int	connect_to_server (char *, int, int);
 	void	BX_get_connected (int, int);
@@ -229,7 +227,7 @@ extern	SGroup	*server_group_list;
 	void	BX_set_server_operator (int, int);
 	void	BX_server_is_connected (int, int);
 	int	BX_parse_server_index (char *);
-	void	BX_parse_server_info (char *, char **, char **, char **, char **, char **, char **);
+	void	BX_parse_server_info (char *, char **, char **, char **, char **);
 	long	set_server_bits (fd_set *, fd_set *);
 	void	BX_set_server_itsname (int, char *);
 	void	BX_set_server_version (int, int);
@@ -397,10 +395,6 @@ NotifyItem	*get_server_notify_list		(int);
 	void	clean_split_server_list		(int, time_t);
 	void write_server_list(char *);
 	void write_server_file (char *);
-//	void set_server_sasl_nick(int, const char *);
-	char *get_server_sasl_nick(int);
-//	void set_server_sasl_pass(int, const char *);
-	char *get_server_sasl_pass(int);
 				
 #define USER_MODE	0x0001
 #define USER_MODE_A	USER_MODE << 0

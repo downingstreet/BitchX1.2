@@ -3,7 +3,7 @@
  * 
  * Generated from hook.h.proto automatically by the Makefile
  *
- * @(#)$Id$
+ * @(#)$Id: hook.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __hook_h_

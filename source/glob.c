@@ -39,7 +39,7 @@
  */
 
 /* from: static char sccsid[] = "@(#)glob.c	8.3 (Berkeley) 10/13/93"; */
-/* $Id$ */
+/* $Id: glob.c 3 2008-02-25 09:49:14Z keaston $ */
 
 /*
  * glob(3) -- a superset of the one defined in POSIX 1003.2.

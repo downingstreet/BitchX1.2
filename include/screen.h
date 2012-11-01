@@ -7,7 +7,7 @@
  *
  * see the copyright file, or type help ircii copyright
  *
- * @(#)$Id$
+ * @(#)$Id: screen.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __screen_h_

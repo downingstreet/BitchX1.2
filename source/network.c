@@ -7,7 +7,7 @@
 #define SET_SOURCE_SOCKET
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: network.c 203 2012-06-02 11:38:37Z keaston $";
 CVS_REVISION(network_c)
 #include "struct.h"
 #include "ircterm.h"

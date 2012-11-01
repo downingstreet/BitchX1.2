@@ -1,5 +1,5 @@
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: fset.c 144 2011-10-13 12:45:27Z keaston $";
 CVS_REVISION(fset_c)
 #include "struct.h"
 

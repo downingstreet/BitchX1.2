@@ -14,7 +14,7 @@
 #endif
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: server.c 212 2012-09-20 02:36:48Z tcava $";
 CVS_REVISION(server_c)
 #include "struct.h"
 
@@ -107,14 +107,6 @@ void	BX_close_server (int cs_index, char *message)
 	if (cs_index < 0 || cs_index > number_of_servers)
 		return;
 
-#ifdef HAVE_SSL
-	if (get_server_ssl(cs_index) && server_list[cs_index].ssl_fd)
-	{
-		say("Closing SSL connection");
-		SSL_shutdown(server_list[cs_index].ssl_fd);
-	}
-#endif
-
 	if (serv_close_func)
 		(*serv_close_func)(cs_index, server_list[cs_index].local_addr, server_list[cs_index].port);
 	clean_server_queues(from_server);
@@ -159,7 +151,11 @@ void	BX_close_server (int cs_index, char *message)
 			strlcat(buffer, "\r\n", IRCD_BUFFER_SIZE + 1);
 #ifdef HAVE_SSL
 			if (get_server_ssl(cs_index))
+			{
 				SSL_write(server_list[cs_index].ssl_fd, buffer, strlen(buffer));
+				say("Closing SSL connection");
+				SSL_shutdown(server_list[cs_index].ssl_fd);
+			}
 			else
 #endif
 				send(server_list[cs_index].write, buffer, strlen(buffer), 0);
@@ -700,9 +696,7 @@ int 	BX_find_server_refnum (char *server, char **rest)
 	char 	*cport = NULL, 
 		*password = NULL,
 		*nick = NULL,
-		*snetwork = NULL,
-		*sasl_nick = NULL,
-		*sasl_pass = NULL;
+		*snetwork = NULL;
 
 	/*
 	 * First of all, check for an existing server refnum
@@ -710,10 +704,10 @@ int 	BX_find_server_refnum (char *server, char **rest)
 	if ((refnum = parse_server_index(server)) != -1)
 		return refnum;
 	/*
-	 * Next check to see if its a "server:port:password:nick:network:saslnick:saslpass"
+	 * Next check to see if its a "server:port:password:nick:network"
 	 */
 	else if (index(server, ':') || index(server, ','))
-		parse_server_info(server, &cport, &password, &nick, &snetwork, &sasl_nick, &sasl_pass);
+		parse_server_info(server, &cport, &password, &nick, &snetwork);
 
 	else if (index(server, '['))
 	{
@@ -729,7 +723,7 @@ int 	BX_find_server_refnum (char *server, char **rest)
 		}
 	}
 	/*
-	 * Next check to see if its "server port password nick network saslnick saslport"
+	 * Next check to see if its "server port password nick"
 	 */
 	else if (rest && *rest)
 	{
@@ -737,8 +731,6 @@ int 	BX_find_server_refnum (char *server, char **rest)
 		password = next_arg(*rest, rest);
 		nick = next_arg(*rest, rest);
 		snetwork = next_arg(*rest, rest);
-		sasl_nick = next_arg(*rest, rest);
-		sasl_pass = next_arg(*rest, rest);
 	}
 
 	if (cport && *cport)
@@ -748,7 +740,7 @@ int 	BX_find_server_refnum (char *server, char **rest)
 	 * Add to the server list (this will update the port
 	 * and password fields).
 	 */
-	add_to_server_list(server, port, password, nick, snetwork, sasl_nick, sasl_pass, 0, 1);
+	add_to_server_list(server, port, password, nick, snetwork, 0, 1);
 	return from_server;
 }
 
@@ -760,7 +752,7 @@ int 	BX_find_server_refnum (char *server, char **rest)
  * passes.  If the server is not on the list, it is added to the end. In
  * either case, the server is made the current server. 
  */
-void 	BX_add_to_server_list (char *server, int port, char *password, char *nick, char *snetwork, char *sasl_nick, char *sasl_pass, int ssl, int overwrite)
+void 	BX_add_to_server_list (char *server, int port, char *password, char *nick, char *snetwork, int ssl, int overwrite)
 {
 extern int default_swatch;
 	if ((from_server = find_in_server_list(server, port)) == -1)
@@ -789,11 +781,6 @@ extern int default_swatch;
 		else if (!server_list[from_server].d_nickname)
 			malloc_strcpy(&(server_list[from_server].d_nickname), nickname);
 
-		if (sasl_nick && *sasl_nick)
-			malloc_strcpy(&(server_list[from_server].sasl_nick), sasl_nick);
-		if (sasl_pass && *sasl_pass)
-			malloc_strcpy(&(server_list[from_server].sasl_pass), sasl_pass);
-
 		make_notify_list(from_server);
 		make_watch_list(from_server);
 		set_umode(from_server);
@@ -816,20 +803,6 @@ extern int default_swatch;
 					malloc_strcpy(&(server_list[from_server].d_nickname), nick);
 				else
 					new_free(&(server_list[from_server].d_nickname));
-			}
-			if (sasl_nick || !server_list[from_server].sasl_nick)
-			{
-				if (sasl_nick && *sasl_nick)
-					malloc_strcpy(&(server_list[from_server].sasl_nick), sasl_nick);
-				else
-					new_free(&(server_list[from_server].sasl_nick));
-			}
-			if (sasl_pass || !server_list[from_server].sasl_pass)
-			{
-				if (sasl_pass && *sasl_pass)
-					malloc_strcpy(&(server_list[from_server].sasl_pass), sasl_pass);
-				else
-					new_free(&(server_list[from_server].sasl_pass));
 			}
 		}
 		if (strlen(server) > strlen(server_list[from_server].name))
@@ -905,13 +878,13 @@ void 	remove_from_server_list (int i)
  *
  * With IPv6 patch it also supports comma as a delimiter.
  */
-void	BX_parse_server_info (char *name, char **port, char **password, char **nick, char **snetwork, char **sasl_nick, char **sasl_pass)
+void	BX_parse_server_info (char *name, char **port, char **password, char **nick, char **snetwork)
 {
 	char *ptr, delim;
 
 	delim = (index(name, ',')) ? ',' : ':';
 
-	*port = *password = *nick = *sasl_nick = *sasl_pass = NULL;
+	*port = *password = *nick = NULL;
 	if ((ptr = (char *) strchr(name, delim)) != NULL)
 	{
 		*(ptr++) = (char) 0;
@@ -943,28 +916,7 @@ void	BX_parse_server_info (char *name, char **port, char **password, char **nick
 								if  (!strlen(ptr))
 									*snetwork = NULL;
 								else
-								{
 									*snetwork = ptr;
-									if ((ptr = strchr(ptr, delim)) != NULL)
-									{
-										*(ptr++) = 0;
-										if (!strlen(ptr))
-											*sasl_nick = NULL;
-										else
-										{
-											*sasl_nick = ptr;
-											if ((ptr = strchr(ptr, delim)) != NULL)
-											{
-												*(ptr++) = 0;
-												if (!strlen(ptr))
-													*sasl_pass = NULL;
-												else
-													*sasl_pass = ptr;
-											}
-											
-										}
-									}
-								}
 							}
 						}
 					}
@@ -985,8 +937,8 @@ void	BX_parse_server_info (char *name, char **port, char **password, char **nick
  * servername:port 
  * servername:port:password 
  * servername::password 
- * [servernetwork]
- * servername:port:password:nick:servernetwork:saslnick:saslpass
+ * servernetwork
+ * servername:port:password:nick:servernetwork
  * Note also that this routine mucks around with the server string passed to it,
  * so make sure this is ok 
  */
@@ -999,9 +951,7 @@ int	BX_build_server_list (char *servers)
 		*password = NULL,
 		*port = NULL,
 		*nick = NULL,
-		*snetwork = NULL,
-		*sasl_nick = NULL,
-		*sasl_pass = NULL;
+		*snetwork = NULL;
 
 	int	port_num;
 	int	i = 0;
@@ -1041,7 +991,7 @@ int	BX_build_server_list (char *servers)
 				snetwork = NULL;
 				continue;
 			}
-			parse_server_info(host, &port, &password, &nick, &snetwork, &sasl_nick, &sasl_pass);
+			parse_server_info(host, &port, &password, &nick, &snetwork);
 			if (port && *port)
 			{
 				if (!(port_num = my_atol(port)))
@@ -1050,7 +1000,7 @@ int	BX_build_server_list (char *servers)
 			else
 				port_num = irc_port;
 
-			add_to_server_list(host, port_num, password, nick, snetwork ? snetwork : default_network, sasl_nick, sasl_pass, do_use_ssl, 0);
+			add_to_server_list(host, port_num, password, nick, snetwork ? snetwork : default_network, do_use_ssl, 0);
 			i++;
 		}
 		servers = rest;
@@ -1319,7 +1269,7 @@ noidentwd:
 #endif
 
 	update_all_status(current_window, NULL, 0);
-	add_to_server_list(server_name, port, NULL, NULL, NULL, NULL, NULL, 0, 1);
+	add_to_server_list(server_name, port, NULL, NULL, NULL, 0, 1);
 
 	server_list[from_server].closing = 0;
 	if (port)
@@ -1684,7 +1634,7 @@ BUILT_IN_COMMAND(servercmd)
 	{
 		if (!(server=new_next_arg(args,&args)))
 		{
-			say("Not enough parameters - supply server name");
+			say("Not enough paramters - supply server name");
 			return;
 		}
 		say("Trying to establish ssl connection with server: %s",server);
@@ -2329,9 +2279,6 @@ void	register_server (int ssn_index, char *nick)
 	int old_from_server = from_server;
 	if (server_list[ssn_index].password)
 		my_send_to_server(ssn_index, "PASS %s", server_list[ssn_index].password);
-
-	if (server_list[ssn_index].sasl_nick && server_list[ssn_index].sasl_pass)
-		my_send_to_server(ssn_index, "CAP REQ :sasl");
 		
 	my_send_to_server(ssn_index, "USER %s %s %s :%s", username, 
 			(send_umode && *send_umode) ? send_umode : 
@@ -3842,42 +3789,4 @@ int 	save_servers (FILE *fp)
 				server_list[i].nickname : empty_string);
 	}
 	return i;
-}
-
-#if 0
-void set_server_sasl_nick(int server, const char *nick)
-{
-	if (server <= -1 || server >= number_of_servers)
-		return;
-	if (nick)
-		malloc_strcpy(&server_list[server].sasl_nick, nick);
-	else
-		new_free(&server_list[server].sasl_nick);
-}
-#endif
-
-char *get_server_sasl_nick(int server)
-{
-	if (server <= -1 || server >= number_of_servers)
-		return NULL;
-	return server_list[server].sasl_nick;
-}
-
-#if 0
-void set_server_sasl_pass(int server, const char *pass)
-{
-	if (server <= -1 || server >= number_of_servers)
-		return;
-	if (pass)
-		malloc_strcpy(&server_list[server].sasl_pass, pass);
-	else
-		new_free(&server_list[server].sasl_pass);
-}
-#endif
-
-char *get_server_sasl_pass(int server)
-{
-	if (server <= -1 || server >= number_of_servers)
-		return NULL;
-	return server_list[server].sasl_pass;
 }

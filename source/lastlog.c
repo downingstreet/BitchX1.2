@@ -10,7 +10,7 @@
 
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: lastlog.c 3 2008-02-25 09:49:14Z keaston $";
 CVS_REVISION(lastlog_c)
 #include "struct.h"
 

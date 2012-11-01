@@ -6,7 +6,7 @@
  */
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: files.c 3 2008-02-25 09:49:14Z keaston $";
 CVS_REVISION(files_c)
 #include "ircaux.h"
 #define MAIN_SOURCE

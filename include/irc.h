@@ -6,7 +6,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: irc.h 206 2012-06-13 12:34:32Z keaston $
  */
 
 #ifndef __irc_h

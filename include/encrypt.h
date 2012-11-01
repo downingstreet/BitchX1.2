@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: encrypt.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __CRYPT_H_

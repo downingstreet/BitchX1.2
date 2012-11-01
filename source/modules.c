@@ -9,7 +9,7 @@
 #define __modules_c
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: modules.c 87 2010-06-26 08:18:34Z keaston $";
 CVS_REVISION(modules_c)
 #include "struct.h"
 #include "alias.h"

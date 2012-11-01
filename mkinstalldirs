@@ -4,7 +4,7 @@
 # Created: 1993-05-16
 # Public domain
 
-# @(#)$Id$
+# @(#)$Id: mkinstalldirs 3 2008-02-25 09:49:14Z keaston $
 
 errstatus=0
 

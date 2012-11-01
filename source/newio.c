@@ -13,7 +13,7 @@
  */
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: newio.c 104 2010-09-30 13:26:06Z keaston $";
 CVS_REVISION(newio_c)
 #include "ircaux.h"
 #include "output.h"

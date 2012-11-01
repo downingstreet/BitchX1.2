@@ -5,7 +5,7 @@
  *
  * copyright (c) 1993, 1994.
  *
- * @(#)$Id$
+ * @(#)$Id: stack.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef __stack_h_

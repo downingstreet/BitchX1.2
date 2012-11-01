@@ -9,7 +9,7 @@
 #define _GNU_SOURCE /* Needed for strsignal from string.h on GLIBC systems */
 
 #include "irc.h"
-static char cvsrevision[] = "$Id$";
+static char cvsrevision[] = "$Id: exec.c 156 2012-02-17 12:30:55Z keaston $";
 CVS_REVISION(exec_c)
 #include "struct.h"
 

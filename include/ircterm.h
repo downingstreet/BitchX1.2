@@ -7,7 +7,7 @@
  *
  * See the COPYRIGHT file, or do a HELP IRCII COPYRIGHT 
  *
- * @(#)$Id$
+ * @(#)$Id: ircterm.h 3 2008-02-25 09:49:14Z keaston $
  */
 
 #ifndef _TERM_H_

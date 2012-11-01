@@ -7,7 +7,7 @@
  *
  * See the copyright file, or do a help ircii copyright 
  *
- * @(#)$Id$
+ * @(#)$Id: irc_std.h 171 2012-05-10 12:31:04Z keaston $
  */
 
 #ifndef __irc_std_h
