@@ -63,7 +63,7 @@ CVS_REVISION(irc_c)
 #endif
 
 #ifndef VERSION
-	const char irc_version[] = "BitchX-1.2c01-svn";
+	const char irc_version[] = "BitchX-1.2c02";
 #else
 	const char irc_version[] = VERSION;
 #endif
