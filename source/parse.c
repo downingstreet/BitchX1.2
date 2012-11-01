@@ -887,6 +887,79 @@ static	void p_error(char *from, char **ArgList)
 	say("%s", ArgList[0]);
 }
 
+/*
+ * This only handles negotiating the SASL capability with the PLAIN method. It would
+ * be good to add DH-BLOWFISH, and later, full capability support.
+ */
+static	void p_cap(char *from, char **ArgList)
+{
+	char *caps, *p;
+
+	if (!strcmp(ArgList[1], "ACK"))
+	{
+		caps = LOCAL_COPY(ArgList[2]);
+		while ((p = next_arg(caps, &caps)) != NULL)
+		{
+			/* Only AUTHENTICATE before registration */
+			if (!strcmp(p, "sasl") && !is_server_connected(from_server))
+			{
+				my_send_to_server(from_server, "AUTHENTICATE PLAIN");
+				break;
+			}
+		}
+	}
+	else if (!strcmp(ArgList[1], "NAK"))
+	{
+		caps = LOCAL_COPY(ArgList[2]);
+		while ((p = next_arg(caps, &caps)) != NULL)
+		{
+			/* End capability negotiation to continue registration */
+			if (!strcmp(p, "sasl") && !is_server_connected(from_server))
+			{
+				my_send_to_server(from_server, "CAP END");
+				break;
+			}
+		}
+	}
+}
+
+static	void p_authenticate(char *from, char **ArgList)
+{
+	char buf[512];
+	char *output = NULL;
+	char *nick, *pass;
+
+	/* "AUTHENTICATE command MUST be used before registration is complete" */
+	if (is_server_connected(from_server))
+		return;
+
+	if (!strcmp(ArgList[0], "+"))
+	{
+		nick = get_server_sasl_nick(from_server);
+		pass = get_server_sasl_pass(from_server);
+
+		/* "The client can abort an authentication by sending an asterisk as the data" */
+		if (!nick || !pass)
+		{
+			my_send_to_server(from_server, "AUTHENTICATE *");
+			return;
+		}
+
+		strlcpy(buf, nick, sizeof buf);
+		strlcpy(buf + strlen(nick) + 1, nick, sizeof buf);
+		strlcpy(buf + strlen(nick) * 2 + 2, pass, sizeof buf);
+
+		if (my_base64_encode(buf, strlen(nick) * 2 + strlen(pass) + 2, &output) != -1)
+		{
+			my_send_to_server(from_server, "AUTHENTICATE %s", output);
+// XXX			new_free(&output);
+			free(output);
+		}
+		else
+			my_send_to_server(from_server, "AUTHENTICATE *");
+	}
+}
+
 void add_user_who (WhoEntry *w, char *from, char **ArgList)
 {
 	char *userhost;
@@ -1758,7 +1831,9 @@ static void p_rpong (char *from, char **ArgList)
 
 protocol_command rfc1459[] = {
 {	"ADMIN",	NULL,		NULL,		0,		0, 0},
+{	"AUTHENTICATE",	p_authenticate,	NULL,		0,		0, 0},
 {	"AWAY",		NULL,		NULL,		0,		0, 0},
+{	"CAP",		p_cap,		NULL,		0,		0, 0},
 { 	"CONNECT",	NULL,		NULL,		0,		0, 0},
 {	"ERROR",	p_error,	NULL,		0,		0, 0},
 {	"ERROR:",	p_error,	NULL,		0,		0, 0},
